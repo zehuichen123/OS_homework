@@ -48,7 +48,7 @@
 <center>
 <img src="thread.png" height=500px>
 </center>
-<center><caption><b>图2: 线程间通讯</caption></center>
+<center><caption><b>图2: 线程间通讯</b></caption></center>
 
 #### 4.2.2 电梯模拟
 
