@@ -235,4 +235,4 @@ def print_input_down(self,button,args_list):
 
 ## 5. 其他
 
-好像没有其他，emmm，反正就是 python的GUI库真的都好丑啊，感觉pygtk就是用来写OS界面的，根本不适合做电梯这种东西😭， 还请TA手下留情
+好像没有其他，emmm，反正就是 python的GUI库真的都好丑啊，感觉pygtk就是用来写OS界面的，根本不适合做电梯这种东西,还请TA手下留情
