@@ -11,7 +11,7 @@
     - Linux下:
     `apt-get install -y python-gtk2`
     - Windows下：
-    `?`
+    `= =`
 
 启动程序：  
 在当前目录下，输入命令:`python3 elevator.py`
@@ -69,7 +69,7 @@
 <img src="elevator.png" height=500px>
 </center>
 <center>
-<caption>图3: 电梯每层行为
+<caption><b>图3: 电梯每层行为</b></caption>
 </center>
 
 ```Python
