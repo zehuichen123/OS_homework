@@ -4,7 +4,9 @@
 
 某一栋楼20层，有五部互联的电梯。基于线程思想，编写一个电梯调度程序。
 
-## 2. 环境
+## 2. 环境及使用
+
+### 环境要求
 
 - Python 3.5+
 - python-gkt 3.0
@@ -16,6 +18,12 @@
 启动程序：  
 在当前目录下，输入命令:`python3 elevator.py`
 
+### 使用说明
+- 使用者通过点按电梯外整层楼层按钮（图形化最底部的两行按钮）呼叫电梯
+- 当电梯到达该层时，用户将有3s时间进行选择自己要去的楼层，如果没有及时选择：
+    - 如果电梯内无其他乘客，则自动回到第一层等待
+    - 如果电梯里存在其他乘客，则忽略该名乘客
+- 对于在使用者呼叫电梯时，如果选择上方向呼叫，则在进入电梯选择要前往的楼层时，如果选择了低于当前楼层的目的地，电梯将不予接收该命令，对于选择向下方向呼叫同理。
 ## 3. UI界面
 
 <img src="UI.jpg">
@@ -23,7 +31,7 @@
 
 ### 界面解释
 
-5部电梯使用`Gtk.ProgressorBar`的进度条类模拟实现，进度条到达位置即为电梯当前所处位置，分别从01到20。下面共40个按钮使用`Gtk.Button`模拟实现，代表在该栋楼里20层的上下按钮，当乘客想要使用电梯即点按他当前所在层的up/down按钮，电梯则会调度来接乘客。
+5部电梯使用`Gtk.ProgressorBar`的进度条类模拟实现，进度条到达位置即为电梯当前所处位置，分别从01到20。下面共40个按钮使用`Gtk.Button`模拟实现，代表在该栋楼里20层的上下按钮，当乘客想要使用电梯即点按他当前所在层的上/下按钮，电梯则会调度来接乘客。当电梯到达时，通过点击当前电梯内部按钮选择要前往的楼层。
 
 ## 4. 代码逻辑实现
 
@@ -214,7 +222,7 @@ def update_getting(self,request_queue):
         request_queue.put(remain_request)
 ```
 
-#### 4.2.3 按钮的回调函数
+#### 4.2.3 Request按钮的回调函数
 
 图像化界面在一定程度上避免了多线程的IO阻塞问题。通过多个按钮触发的回调函数达到向整个程序输入信息的问题。这里，对于20个楼层的up/down按钮，每个按钮对应一个回调函数，将该楼层对应的`Request`加入`Queue`中。
 ```Python
@@ -231,6 +239,24 @@ def print_input_down(self,button,args_list):
     exchange_queue=args_list[1]
     new_request=Request(stair_num,-1)
     exchange_queue.put(new_request)
+```
+
+#### 4.2.4 选择前往目的地的按钮（电梯内部按钮）
+
+该按钮对应回调`ask_for_destination`函数。如果呼叫电梯选择的上，则电梯将只接收目的地比当前楼层高的请求；如果呼叫电梯选择的下，则电梯只接收目的地比当前楼层低的请求，否则忽略当前请求。
+
+```Python
+def ask_for_destination(other,arg_list):
+    destination=arg_list[0]
+    elevator_instance=arg_list[1]
+    if elevator_instance.curr_process_req!=None:
+        if elevator_instance.curr_process_req.direction==1:
+            if destination>elevator_instance.curr_stair:
+                elevator_instance.new_passenger_destination=destination
+        if elevator_instance.curr_process_req.direction==-1:
+            if destination<elevator_instance.curr_stair:
+                elevator_instance.new_passenger_destination=destination
+    return
 ```
 
 ## 5. 其他
