@@ -86,6 +86,7 @@ def run(self,request_queue,progressbar):
         self.state_check()
         if self.curr_direction!=0:
             print('current at '+str(self.curr_stair))
+        # if the elevator needs to deliver any passenger
         if self.further_passenger!=None:
             task_destination=self.further_passenger.destination
             self.get_direction(task_destination)
@@ -98,6 +99,7 @@ def run(self,request_queue,progressbar):
         else:
             # the elavator has someone to pickup
             if self.curr_getting!=None:
+                #print('has someone to pick up?')
                 task_destination=self.curr_getting.request_stair
                 self.get_direction(task_destination)
                 self.check_passenger_up(request_queue)
@@ -108,6 +110,7 @@ def run(self,request_queue,progressbar):
                 progressbar.set_fraction(curr_percent)
             # if the elavator is idling now
             else:
+                #print('find someone to pick up')
                 self.update_getting(request_queue)
                 self.curr_stair+=self.curr_direction
                 curr_percent=(self.curr_stair*18-9)/358
@@ -119,10 +122,14 @@ def run(self,request_queue,progressbar):
 此函数用于检查当前楼层是否有乘客要下电梯。由于一个电梯中，保留电梯上乘客信息的有两个地方，首先是`further_passenger`，其次是`passenger_list`,我们遍历这两者中的乘客，如果有乘客的`destination`恰好为当前楼层，则我们将该乘客从`further_passenger`或`passenger_list`中移除。
 ```Python
 def check_passenger_down(self):
+    # if further_passenger in the elevator reach its destination
     if self.further_passenger.destination==self.curr_stair:
+        # let this passenger down
         self.further_passenger=None
+        self.new_passenger_destination=1
         return
-
+    # tranverse the whole passenger_list to check if there is 
+    # any passenger reach its destination
     for each_passenger in self.passenger_list:
         if each_passenger.destination==self.curr_stair:
             self.passenger_list.remove(each_passenger)
@@ -202,22 +209,29 @@ def check_passenger_up(self,request_queue):
 该函数用于在电梯内没有乘客时从`Queue`中找到合适的`Request`作为电梯的`curr_getting`从而让电梯去接该位乘客。这里的设计思想对于每部电梯，总是从`Queue`中取出离当前电梯最远的`Request`作为`curr_getting`，并在前去接该位乘客的同时继续检查`Queue`是否加入了更远的`Request`,如果有则更新当前电梯的`curr_getting`，这样的目的是为了让楼层更高的乘客能够更好的得到照顾。
 ```Python
 def update_getting(self,request_queue):
+    # update elevator curr_getting based on Request from exchange_queue
     queue_list=[]
+    # if there's no curr_getting with this elevator
     if self.curr_getting==None:
         self.curr_getting=request_queue.get()
         task_destination=self.curr_getting.request_stair
         self.get_direction(task_destination)
+    # tranverse the whole requests in the Queue
     while(not request_queue.empty()):
         request_item=request_queue.get()
+        # if the curr_direction of the elevator is same as 
+        # request by users, add it to elevator passenger_list
         if self.curr_direction*request_item.request_stair\
             >self.curr_direction*self.curr_getting.request_stair:
             queue_list.append(self.curr_getting)
             self.curr_getting=request_item
+        # if the curr_direction is not the same as the request, just ignore it.
         elif self.curr_direction*request_item.request_stair\
             <self.curr_direction*self.curr_getting.request_stair:
             queue_list.append(request_item)
         else:
             pass
+    # put all requests that has not been receieved by elevator
     for remain_request in queue_list:
         request_queue.put(remain_request)
 ```
@@ -249,14 +263,19 @@ def print_input_down(self,button,args_list):
 def ask_for_destination(other,arg_list):
     destination=arg_list[0]
     elevator_instance=arg_list[1]
+    # if the elevator is processing elevator instance
     if elevator_instance.curr_process_req!=None:
+        # if this request is up
         if elevator_instance.curr_process_req.direction==1:
+            # if the passenger ask for destination higher than current stair
             if destination>elevator_instance.curr_stair:
+                # receieve this passenger
                 elevator_instance.new_passenger_destination=destination
+        # same as the former one
         if elevator_instance.curr_process_req.direction==-1:
             if destination<elevator_instance.curr_stair:
                 elevator_instance.new_passenger_destination=destination
-    return
+    returnv
 ```
 
 ## 5. 其他

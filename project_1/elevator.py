@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 #-*- coding:utf-8 -*-
-
 import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk,GObject
@@ -12,10 +11,15 @@ import time
 def ask_for_destination(other,arg_list):
     destination=arg_list[0]
     elevator_instance=arg_list[1]
+    # if the elevator is processing elevator instance
     if elevator_instance.curr_process_req!=None:
+        # if this request is up
         if elevator_instance.curr_process_req.direction==1:
+            # if the passenger ask for destination higher than current stair
             if destination>elevator_instance.curr_stair:
+                # receieve this passenger
                 elevator_instance.new_passenger_destination=destination
+        # same as the former one
         if elevator_instance.curr_process_req.direction==-1:
             if destination<elevator_instance.curr_stair:
                 elevator_instance.new_passenger_destination=destination
@@ -31,6 +35,7 @@ class Request(object):
 
 class Passenger(object):
     def __init__(self,destination):
+        # passenger's 
         self.destination=destination
 
 class Elavator(object):
@@ -40,41 +45,56 @@ class Elavator(object):
         self.curr_direction=0
         # elavator now task
         self.curr_getting=None
-        # the passenger in elavator
+        # the furtherest destination of passenger in this elevator
         self.further_passenger=None
+        # all passengers currently in this elevator
         self.passenger_list=[]
+        # new passenger request for his destination
         self.new_passenger_destination=1
+        # current request that elevator is processing
         self.curr_process_req=None
 
+    # get the current direction of elevator based on 
+    # the curr_getting or passenger in the elevator
     def get_direction(self,task_destination):
+
         if task_destination>self.curr_stair:
             self.curr_direction=1
+            
         elif task_destination==self.curr_stair:
             self.curr_direction=0
+
         else:
             self.curr_direction=-1
 
+
     def check_passenger_down(self):
+        # if further_passenger in the elevator reach its destination
         if self.further_passenger.destination==self.curr_stair:
+            # let this passenger down
             self.further_passenger=None
             self.new_passenger_destination=1
             return
-
+        # tranverse the whole passenger_list to check if there is 
+        # any passenger reach its destination
         for each_passenger in self.passenger_list:
             if each_passenger.destination==self.curr_stair:
                 self.passenger_list.remove(each_passenger)
         return
+
     def recheck_direction(self):
+        # redirect the elevator direction
         if self.further_passenger!=None:
             if self.further_passenger.destination>self.curr_stair:
                 self.curr_direction=1
-                print('recheck direection to 1')
+                print('recheck direction to 1')
             elif self.further_passenger.destination<self.curr_stair:
                 self.curr_direction=-1
                 print('recheck direction to -1')
             else:
                 self.curr_direction=0
                 print('recheck direction to 0')
+
     def check_passenger_up(self,request_queue):
         queue_list=[]
         # check if getting someone up
@@ -110,6 +130,8 @@ class Elavator(object):
 
                 self.recheck_direction()
                 return
+
+        # check all requests in the request_list
         while(not request_queue.empty()):
             request_item=request_queue.get()
             print("GET REQUEST:  "+str(request_item.request_stair))
@@ -150,36 +172,40 @@ class Elavator(object):
             request_queue.put(remain_request)
         #print("End checking passenger up at stair "+str(self.curr_stair))
         #print('------')
+
     def update_getting(self,request_queue):
+        # update elevator curr_getting based on Request from exchange_queue
         queue_list=[]
+        # if there's no curr_getting with this elevator
         if self.curr_getting==None:
             self.curr_getting=request_queue.get()
             task_destination=self.curr_getting.request_stair
             self.get_direction(task_destination)
+        # tranverse the whole requests in the Queue
         while(not request_queue.empty()):
             request_item=request_queue.get()
+            # if the curr_direction of the elevator is same as 
+            # request by users, add it to elevator passenger_list
             if self.curr_direction*request_item.request_stair\
                 >self.curr_direction*self.curr_getting.request_stair:
                 queue_list.append(self.curr_getting)
                 self.curr_getting=request_item
+            # if the curr_direction is not the same as the request, just ignore it.
             elif self.curr_direction*request_item.request_stair\
                 <self.curr_direction*self.curr_getting.request_stair:
                 queue_list.append(request_item)
             else:
                 pass
+        # put all requests that has not been receieved by elevator
         for remain_request in queue_list:
             request_queue.put(remain_request)
+
+    # debug function to check current elevator state
     def state_check(self):
+        '''
         print("*************")
         print("STATE CHECK")
-        '''
-        print("curr direction: "+str(self.curr_direction))
-        if self.curr_getting!=None:
-            print("curr getting request stair: "+str(self.curr_getting.request_stair))
-        else:
-            print("no curr getting request")
-        print("curr stair at: "+str(self.curr_stair))
-        '''
+        
         if self.further_passenger!=None:
             print('further passenger: '+str(self.further_passenger.destination))
         else:
@@ -188,11 +214,15 @@ class Elavator(object):
         for i in self.passenger_list:
             print(i.destination)
         print("*************")
+        '''
+        pass
+
     def run(self,request_queue,progressbar):
         while(True):
             self.state_check()
             if self.curr_direction!=0:
                 print('current at '+str(self.curr_stair))
+            # if the elevator needs to deliver any passenger
             if self.further_passenger!=None:
                 task_destination=self.further_passenger.destination
                 self.get_direction(task_destination)
@@ -222,6 +252,11 @@ class Elavator(object):
                     curr_percent=(self.curr_stair*18-9)/358
                     progressbar.set_fraction(curr_percent)
                 time.sleep(1)
+
+
+##################################
+####         UI界面           #####
+##################################
 
 class RequestWindow(Gtk.Window):
     def __init__(self):
@@ -483,8 +518,8 @@ class InitWindow(Gtk.Window):
         Gtk.main()
         
 
-
-window =InitWindow()        
-window.connect("destroy", Gtk.main_quit)
-window.show_all()
-Gtk.main()
+if __name__=='__main__':
+    window =InitWindow()        
+    window.connect("destroy", Gtk.main_quit)
+    window.show_all()
+    Gtk.main()
