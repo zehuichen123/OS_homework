@@ -1,0 +1,280 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="refresh" content="1">
+	<script src="{% static 'elevator/js/jquery-2.1.3.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'elevator/css/buttons.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'elevator/css/w3.css' %}"/>
+	<script>
+        function request_up(stair_num)
+        {	
+            url_head='http://127.0.0.1:8000/request_up/'
+			url_num=stair_num.toString()
+			url=url_head.concat(url_num)
+            $.get(url);
+        }
+		function request_down(stair_num)
+        {	
+            url_head='http://127.0.0.1:8000/request_down/'
+			url_num=stair_num.toString()
+			url=url_head.concat(url_num)
+            $.get(url);
+        }
+		function ask_for_destination(elevator_num,stair_num)
+		{
+			url_head='http://127.0.0.1:8000/ask_for_destination/'
+			stair_url=stair_num.toString()
+			symbol='/'
+			elevator_url=elevator_num.toString()
+			elevator_url_1=elevator_url.concat(symbol)
+			url_temp=url_head.concat(elevator_url_1)
+			url=url_temp.concat(stair_url)
+            $.get(url);
+		}
+    </script>
+</head>
+<body>
+	<div class="w3-sidebar w3-bar-block" style="width:20%;right:0">
+		<h3 style="margin:0px;">Outside Elevator</h3>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  >无 20</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;" onclick="request_down(20)">下 20</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(19)" >上 19</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(19)" >下 19</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(18)" >上 18</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(18)" >下 18</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(17)" >上 17</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(17)" >下 17</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(16)" >上 16</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(16)" >下 16</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(15)" >上 15</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(15)" >下 15</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(14)" >上 14</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(14)" >下 14</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(13)" >上 13</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(13)" >下 13</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(12)" >上 12</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(12)" >下 12</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(11)" >上 11</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(11)" >下 11</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(10)" >上 10</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(10)" >下 10</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(9)" >上 09</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(9)" >下 09</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(8)" >上 08</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(8)" >下 08</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(7)" >上 07</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(7)" >下 07</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(6)" >上 06</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(6)" >下 06</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(5)" >上 05</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(5)" >下 05</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(4)" >上 04</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(4)" >下 04</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(3)" >上 03</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(3)" >下 03</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(2)" >上 02</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_down(2)" >下 02</button>
+		<br>
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;"  onclick="request_up(1)" >上 01</button>	&nbsp;
+		<button class="button button-border button-rounded button-inverse" style="padding:1px 20px;height:30px;font-size:10px;line-height: 1px;" >无 01</button>
+		<br>
+		<br>
+	</div>
+	
+	<div style="margin-right:25%; margin-left:20%;">
+		<p>
+			<h3>Elevator1</h3>
+			{% for i in num_list %}
+				{% if i == elavator1.curr_stair %}
+					<button class="button button-glow button-action button-circle button-small" style="background-color:#ff9510;">{{i}}</button>
+				{% else %}
+					<button class="button button-circle button-action button-small">{{i}}</button>
+				{% endif %}
+			{% endfor %}
+			<br>
+			{% if elavator1.door_open == 1 %}
+				请点击要前往的楼层
+			{% endif %}
+			<br>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,1)" >01</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,2)" >02</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,3)" >03</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,4)" >04</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,5)" >05</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,6)" >06</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,7)" >07</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,8)" >08</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,9)" >09</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,10)" >10</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,11)" >11</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,12)" >12</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,13)" >13</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,14)" >14</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,15)" >15</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,16)" >16</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,17)" >17</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,18)" >18</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,19)" >19</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(1,20)" >20</button>
+			<br>
+			<h3>Elevator2</h3>
+			{% for i in num_list %}
+				{% if i == elavator2.curr_stair %}
+					<button class="button button-glow button-action button-circle button-small" style="background-color:#ff9510;">{{i}}</button>
+				{% else %}
+					<button class="button button-circle button-action button-small">{{i}}</button>
+				{% endif %}
+			{% endfor %}
+			<br>
+			{% if elavator2.door_open == 1 %}
+				请点击要前往的楼层
+			{% endif %}
+			<br>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,1)" >01</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,2)" >02</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,3)" >03</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,4)" >04</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,5)" >05</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,6)" >06</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,7)" >07</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,8)" >08</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,9)" >09</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,10)" >10</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,11)" >11</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,12)" >12</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,13)" >13</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,14)" >14</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,15)" >15</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,16)" >16</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,17)" >17</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,18)" >18</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,19)" >19</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(2,20)" >20</button>
+			<br>
+			<h3>Elevator3</h3>
+			{% for i in num_list %}
+				{% if i == elavator3.curr_stair %}
+					<button class="button button-glow button-action button-circle button-small" style="background-color:#ff9510;">{{i}}</button>
+				{% else %}
+					<button class="button button-circle button-action button-small">{{i}}</button>
+				{% endif %}
+			{% endfor %}
+			<br>
+			{% if elavator3.door_open == 1 %}
+				请点击要前往的楼层
+			{% endif %}
+			<br>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,1)" >01</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,2)" >02</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,3)" >03</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,4)" >04</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,5)" >05</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,6)" >06</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,7)" >07</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,8)" >08</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,9)" >09</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,10)" >10</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,11)" >11</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,12)" >12</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,13)" >13</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,14)" >14</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,15)" >15</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,16)" >16</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,17)" >17</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,18)" >18</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,19)" >19</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(3,20)" >20</button>
+			<br>
+			<h3>Elevator4</h3>
+			{% for i in num_list %}
+				{% if i == elavator4.curr_stair %}
+					<button class="button button-glow button-action button-circle button-small" style="background-color:#ff9510;">{{i}}</button>
+				{% else %}
+					<button class="button button-circle button-action button-small">{{i}}</button>
+				{% endif %}
+			{% endfor %}
+			<br>
+			{% if elavator4.door_open == 1 %}
+				请点击要前往的楼层
+			{% endif %}
+			<br>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,1)" >01</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,2)" >02</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,3)" >03</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,4)" >04</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,5)" >05</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,6)" >06</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,7)" >07</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,8)" >08</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,9)" >09</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,10)" >10</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,11)" >11</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,12)" >12</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,13)" >13</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,14)" >14</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,15)" >15</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,16)" >16</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,17)" >17</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,18)" >18</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,19)" >19</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(4,20)" >20</button>
+			<br>
+			<h3>Elevator5</h3>
+			{% for i in num_list %}
+				{% if i == elavator5.curr_stair %}
+					<button class="button button-glow button-action button-circle button-small" style="background-color:#ff9510;">{{i}}</button>
+				{% else %}
+					<button class="button button-circle button-action button-small">{{i}}</button>
+				{% endif %}
+			{% endfor %}
+			<br>
+			{% if elavator5.door_open == 1 %}
+				请点击要前往的楼层
+			{% endif %}
+			<br>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,1)" >01</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,2)" >02</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,3)" >03</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,4)" >04</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,5)" >05</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,6)" >06</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,7)" >07</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,8)" >08</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,9)" >09</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,10)" >10</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,11)" >11</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,12)" >12</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,13)" >13</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,14)" >14</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,15)" >15</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,16)" >16</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,17)" >17</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,18)" >18</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,19)" >19</button>
+			<button class="button button-3d button-box button-small" onclick="ask_for_destination(5,20)" >20</button>
+		</p>
+	</div>
+	<br>
+	
+</body>
+</html>

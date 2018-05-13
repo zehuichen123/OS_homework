@@ -9,45 +9,40 @@
 ### 环境要求
 
 - Python 3.5+
-- python-gkt 3.0
-    - Linux下:
-    `apt-get install -y python-gtk2`
-    - Windows下：
-    `= =`
+- django 2.0
 
+安装django请`pip3 install django`
 启动程序：  
-在当前目录下，输入命令:`python3 elevator.py`
+在当前目录下，输入命令:`python3 manage.py runserver`
+然后访问 <a href="http://127.0.0.1:8000/start">http://127.0.0.1:8000/start</a>
 
 ### 使用说明
-- 使用者通过点按电梯外整层楼层按钮（图形化最底部的两行按钮）呼叫电梯
+- 使用者通过点按电梯外整层楼层按钮（页面右侧按钮）呼叫电梯
 - 当电梯到达该层时，用户将有3s时间进行选择自己要去的楼层，如果没有及时选择：
     - 如果电梯内无其他乘客，则自动回到第一层等待
     - 如果电梯里存在其他乘客，则忽略该名乘客
 - 对于在使用者呼叫电梯时，如果选择上方向呼叫，则在进入电梯选择要前往的楼层时，如果选择了低于当前楼层的目的地，电梯将不予接收该命令，对于选择向下方向呼叫同理。
 ## 3. UI界面
 
-<img src="UI.jpg">
+<img src="UI.png">
 <center><caption><b>图1: 图形化界面</b></caption></center>
 
 ### 界面解释
 
-5部电梯使用`Gtk.ProgressorBar`的进度条类模拟实现，进度条到达位置即为电梯当前所处位置，分别从01到20。下面共40个按钮使用`Gtk.Button`模拟实现，代表在该栋楼里20层的上下按钮，当乘客想要使用电梯即点按他当前所在层的上/下按钮，电梯则会调度来接乘客。当电梯到达时，通过点击当前电梯内部按钮选择要前往的楼层。
+5部电梯使用html的`button`实现，当电梯到达该楼层时，楼层变为橙色，否则为绿色，分别从01到20。左边面共100个按钮使用`button`模拟实现，代表在该栋楼里20层的上下按钮，当乘客想要使用电梯即点按他当前所在层的上/下按钮，电梯则会调度来接乘客。当电梯到达时，通过点击当前电梯内部按钮选择要前往的楼层。
 
 ## 4. 代码逻辑实现
 
 ### 4.1 类
 
-本项目中声明了如下五个类：
+本项目中声明了如下三个类：
 
 |Class | Usage |
 |---|---|
 |`Elevator`|描述整个电梯的行为和状态|
 |`Request`|描述整栋楼里乘客点按的每个up/down请求|
 |`Passenger`|描述进入电梯的乘客|
-|`InitWindow`|整个项目的开始界面|
-|`RequestWindow`|整个电梯调度的UI界面|
 
-其中，`Elevator`,`Request`,`Passenger`均为逻辑实现类，`InitWindow`和`RequestWindow`为UI实现类。
 
 ### 4.2 整体逻辑实现
 
@@ -240,19 +235,20 @@ def update_getting(self,request_queue):
 
 图像化界面在一定程度上避免了多线程的IO阻塞问题。通过多个按钮触发的回调函数达到向整个程序输入信息的问题。这里，对于20个楼层的up/down按钮，每个按钮对应一个回调函数，将该楼层对应的`Request`加入`Queue`中。
 ```Python
-##### 向上的按钮
-def print_input_up(self,button,args_list):
-    stair_num=args_list[0]
-    exchange_queue=args_list[1]
+def request_up(request,stair_num):
+    stair_num=int(stair_num)
+    print("**REQUEST**: "+str(stair_num)+' up')
+    #print(exchange_queue)
     new_request=Request(stair_num,1)
     exchange_queue.put(new_request)
+    return render(request,'elevator/empty.html')
 
-##### 向下的按钮
-def print_input_down(self,button,args_list):
-    stair_num=args_list[0]
-    exchange_queue=args_list[1]
+def request_down(request,stair_num):
+    stair_num=int(stair_num)
+    print("**REQUEST**: "+str(stair_num)+' down')
     new_request=Request(stair_num,-1)
     exchange_queue.put(new_request)
+    return render(request,'elevator/empty.html')
 ```
 
 #### 4.2.4 选择前往目的地的按钮（电梯内部按钮）
@@ -260,10 +256,11 @@ def print_input_down(self,button,args_list):
 该按钮对应回调`ask_for_destination`函数。如果呼叫电梯选择的上，则电梯将只接收目的地比当前楼层高的请求；如果呼叫电梯选择的下，则电梯只接收目的地比当前楼层低的请求，否则忽略当前请求。
 
 ```Python
-def ask_for_destination(other,arg_list):
-    destination=arg_list[0]
-    elevator_instance=arg_list[1]
-    # if the elevator is processing elevator instance
+def ask_for_destination(request,elevator_num,stair_num):
+    elevator_num=int(elevator_num)
+    stair_num=int(stair_num)
+    elevator_name='elavator'+str(elevator_num)
+    elevator_instance=arg_dict[elevator_name]
     if elevator_instance.curr_process_req!=None:
         # if this request is up
         if elevator_instance.curr_process_req.direction==1:
@@ -275,9 +272,8 @@ def ask_for_destination(other,arg_list):
         if elevator_instance.curr_process_req.direction==-1:
             if destination<elevator_instance.curr_stair:
                 elevator_instance.new_passenger_destination=destination
-    returnv
+    return render(request,'elevator/empty.html')
 ```
 
 ## 5. 其他
-
-好像没有其他，emmm，反正就是 python的GUI库真的都好丑啊，感觉pygtk就是用来写OS界面的，根本不适合做电梯这种东西,还请TA手下留情
+由于本项目使用每秒刷新一个html网页达到模拟电梯移动的效果（js没学orz，所以尝试部署在服务器上结果很卡，来不及改了，就没有部署在服务器上。。。之前用的python的GUI库python-gtk写了一个图形化界面但是考虑到跑这个要在linux系统下装python-gtk我就没交那个，有兴趣此种方法实现请见 <a href="https://github.com/zehuichen123/OS_homework/tree/8f6466d1f0ab960ddf8f15bb5611c612559642c9">电梯调度python-gtk实现及readme</a>。

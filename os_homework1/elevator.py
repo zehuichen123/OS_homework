@@ -53,7 +53,7 @@ class Elavator(object):
         self.new_passenger_destination=1
         # current request that elevator is processing
         self.curr_process_req=None
-
+        self.door_open=0
     # get the current direction of elevator based on 
     # the curr_getting or passenger in the elevator
     def get_direction(self,task_destination):
@@ -104,7 +104,9 @@ class Elavator(object):
         if self.curr_getting!=None:
             if self.curr_getting.request_stair==self.curr_stair:
                 self.curr_process_req=self.curr_getting
+                self.door_open=1
                 time.sleep(3)
+                self.door_open=0
                 self.curr_getting=None
                 new_passenger_destination=self.new_passenger_destination
                 new_passenger=Passenger(new_passenger_destination)
@@ -141,7 +143,9 @@ class Elavator(object):
                 and request_item.direction==self.curr_direction:
                 # passenger can be picked up
                 self.curr_process_req=request_item
+                self.door_open=1
                 time.sleep(3)
+                self.door_open=0
                 new_passenger_destination=self.new_passenger_destination
                 new_passenger=Passenger(new_passenger_destination)
                 # if there's no passenger before,
