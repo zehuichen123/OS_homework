@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>lovesnowbest's iSimulator</title>
+
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cover.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/buttons.css' %}">
+    <!-- js 
+    <script src="{% static 'blog/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>-->
+    {% block cssjs %}
+    {% endblock%}
+</head>
+
+
+<body class="text-center">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">lovesnowbest</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        {% if home == 1 %}
+        <a class="nav-link" href="/index">My Stimulator</a>
+        <a class="nav-link active" href="/readme">Readme</a>
+        {% else %}
+        <a class="nav-link active" href="/index">My Stimulator</a>
+        <a class="nav-link" href="/readme">Readme</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  {% block main %}
+  {% endblock %}
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Code hosted at <a href="https://github.com/zehuichen123/OS_homework/">Github</a>, by <a href="https://lovesnowbest.site/about">@lovesnowbest</a>.</p>
+    </div>
+  </footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="{% static 'js/jquery-slim.min.js' %}"><\/script>')</script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

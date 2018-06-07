@@ -1,0 +1,50 @@
+.progress {
+    height: 200px;
+    width:200px;
+    font-size: 1.4rem;
+    margin-top: 5%;
+}
+.progress > svg {
+    height: 80%;
+    display: block;
+    padding-top: 20%;
+}
+.hit-ratio {
+	height: 250px;
+	width: 200px;
+	font-size: 1.5rem;
+	margin-left: 10px;
+	margin-right: 50px;
+	float: left;
+}
+.display-area {
+	height: 400px;
+	width: 700px;
+}
+.miss-show {
+	height: 400px;
+	width: 800px;
+}
+.miss-show.table{
+	border-color: #ffffff;
+}
+.evit {
+	background-color: #ffffff;
+	color: #000000;
+	display: inline-block !important;
+	width: 30px;
+	height: 21px;
+	text-align: center;
+}
+
+span {
+	display: inline-block !important;
+	width: 30px;
+	height: 21px;
+	text-align: center;
+}
+
+.masthead {
+  margin-bottom: 10% !important;
+}
+
